@@ -1,0 +1,168 @@
+{% include "products/header.html" %}
+<body>
+  <div style="padding:5%" class="section text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <form id="productAddForm" method="post" class="form-horizontal" role="form"> {% csrf_token %}
+
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Nombre</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.name}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Tipo</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.productType}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Marca</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.brand}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Descripción</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.description}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Variedad</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.variety}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Origen</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.origin}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Fabricante</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.maker}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Precio</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.price}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Stock</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.productStock}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Año</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.year}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Tamaño</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.size}}
+              </div>
+            </div>
+</br>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Código</label>
+              </div>
+              <div id="codeInput" class="col-sm-4">
+                {{form.codigo}}
+              </div>
+            </div>
+            </br>
+
+
+            <div class="form-group">
+              <div class="col-sm-6">
+                <a href="#" id="codeScanner" class="btn btn-success">
+                <span class=""></span> Escanear Código
+                </a>
+              </div>
+
+              <div class="col-sm-4">
+                <a href="{% url "product_list" %}" class="btn btn-danger">
+                <span class=""></span> Cancelar
+                </a>
+              </div>
+            </div>
+
+            <!-- <div class="col-sm-6" style="display:none;">
+              <button type="submit" class="btn btn-success">Confirmar</button>
+            </div> -->
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    function isInt(value) {
+      var x = parseFloat(value);
+      return !isNaN(value) && (x | 0) === x;
+    }
+
+    var alertShown = false;
+    var codeScanner = $("#codeScanner");
+    var codeInput = $("#id_codigo");
+    codeInput.prop("readonly", true);
+    var code = codeInput.val();
+
+    if (code != "" && code != null && code != " ") {
+      alert("El código ingresado ya existe! Ingrese uno diferente.");
+      if (!alertShown) {
+        alertShown = true;
+        //codeScanner.click();
+      }
+    }
+
+    codeScanner.on("click", function(e){
+      e.preventDefault();
+      var code = prompt("Escanee el código de barras del producto o ingrese manualmente el código", "Esperando...");
+      if (isInt(code)) {
+        codeInput.val(code);
+        $("#productAddForm").submit();
+      }
+      else{
+        alert("El valor ingresado no es un código válido. Vuelva a ingresarlo.");
+        //codeScanner.click();
+      }
+    });
+  });
+</script>
+</body>

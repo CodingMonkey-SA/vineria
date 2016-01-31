@@ -1,0 +1,9 @@
+<html>
+{% include "products/header.html" %}
+<h1 style="text-align: center;">Venta realizada con éxito</h1>
+
+<script>
+setTimeout(function() {
+  window.location.href = "{% url 'ventas' %}";
+}, 800);
+</script>

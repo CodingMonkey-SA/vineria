@@ -1,0 +1,67 @@
+{% include "products/header.html" %}
+<body>
+  <div style="padding:1%" class="section text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <form method="post" class="form-horizontal" role="form"> {% csrf_token %}
+
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Usuario</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.username}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Contraseña</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.password}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Nombre</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.first_name}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Apellido</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.last_name}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Email</label>
+              </div>
+              <div class="col-sm-4">
+                {{form.email}}
+              </div>
+            </div>
+</br>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <button type="submit" class="btn btn-success">Confirmar</button>
+              </div>
+
+              <div class="col-sm-4">
+                <a href="{% url "user_list" %}" class="btn btn-danger">
+                <span class=""></span> Cancelar
+                </a>
+              </div>
+            </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

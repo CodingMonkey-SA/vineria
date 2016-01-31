@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  </head>
+   <body style="background-image: url('http://static1.squarespace.com/static/52eaf09be4b0e18798df3911/t/53a8236ae4b0e026bea5cb5f/1403528070892/Wine+Bottle+Background.jpg?format=2500w');
+    background-position: center center;background-size: cover;">
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-5"></div>
+          <div class="col-md-4" style="padding-top: 20%;">
+            <form action="{% url 'login_view' %}" method="post" style="width:70%;">
+              {% csrf_token %}
+              <div class="form-group" >
+                <label class="control-label" for="exampleInputEmail1">Usuario</label>
+                <input class="form-control" id="username" name="username"
+                placeholder="Usuario" type="text" style="border: 2px solid #A03737;">
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="exampleInputPassword1">Contraseña</label>
+                <input class="form-control" id="password" name="password"
+                placeholder="Password" type="password" style="border: 2px solid #A03737;">
+              </div>
+              <button type="submit" class="btn btn-danger">Entrar</button>
+              <input type="hidden" name="next" value="{{ next|escape }}" />
+            </form>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

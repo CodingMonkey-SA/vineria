@@ -1,0 +1,162 @@
+{% include "products/header.html" %}
+
+<style>
+#id_codigo_area{
+  width: 100%;
+  float: left;
+}
+</style>
+<body>
+  <div style="padding:1%" class="section text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <form method="post" class="form-horizontal" role="form"> {% csrf_token %}
+
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Nombre</label>
+              </div>
+              <div class="col-sm-4">
+                {{form1.nombre}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Apellido</label>
+              </div>
+              <div class="col-sm-4">
+                {{form1.apellido}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">E-Mail</label>
+              </div>
+              <div class="col-sm-4">
+                {{form1.mail}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Sitio Web</label>
+              </div>
+              <div class="col-sm-4">
+                {{form1.web}}
+              </div>
+            </div>
+
+            <div class="container-tel" style="border-top-style: groove; border-bottom-style: groove;margin-bottom: 2%;">
+            <div class="form-group" style="padding:1% 0%;">
+              <div class="col-sm-2">
+                <label class="control-label" style="padding:3px;">Codigo de Area</label>
+              </div>
+              <div class="col-sm-1" style="padding:0%;">
+                {{form2.codigo_area}}
+              </div>
+              <div class="col-sm-2">
+                <label class="control-label" style="padding:3px;">Numero de telefono</label>
+              </div>
+              <div class="col-sm-2">
+                {{form2.telefono}}
+              </div>
+              <div class="col-sm-1">
+                <label class="control-label" style="padding:3px;">Tipo</label>
+              </div>
+              <div class="col-sm-2" style="padding:3px;">
+                {{form2.tipo}}
+              </div>
+            </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Pais</label>
+              </div>
+              <div class="col-sm-4">
+                {{form3.pais}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Provincia</label>
+              </div>
+              <div class="col-sm-4">
+                {{form3.provincia}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Ciudad</label>
+              </div>
+              <div class="col-sm-4">
+                {{form3.ciudad}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Calle</label>
+              </div>
+              <div class="col-sm-4">
+                {{form3.calle}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Altura</label>
+              </div>
+              <div class="col-sm-4">
+                {{form3.altura}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Entre Calles</label>
+              </div>
+              <div class="col-sm-4">
+                {{form3.entre_calle}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Piso</label>
+              </div>
+              <div class="col-sm-4">
+                {{form3.piso}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Depto</label>
+              </div>
+              <div class="col-sm-4">
+                {{form3.depto}}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <label class="control-label">Codigo Postal</label>
+              </div>
+              <div class="col-sm-4">
+                {{form3.codigo_postal}}
+              </div>
+            </div>
+
+</br>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <button type="submit" class="btn btn-success">Confirmar</button>
+              </div>
+              <div class="col-sm-4">
+                <a href="{% url "user_list" %}" class="btn btn-danger">
+                <span class=""></span> Cancelar
+                </a>
+              </div>
+            </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

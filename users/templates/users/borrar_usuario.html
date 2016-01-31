@@ -1,0 +1,30 @@
+{% include "products/header.html" %}
+<body>
+  <div class="section text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <form method="post" class="form-horizontal" role="form"> {% csrf_token %}
+            <label class="control-label">Eliminar "{{ user }}" ?</label>
+          </br>
+          </br>
+          </br>
+          <div class="form-group">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3">
+              <button type="submit" class="btn btn-success">Confirmar</button>
+            </div>
+            <div class="col-sm-3">
+              <a href="{% url "index" %}" class="btn btn-danger">
+              <span class=""></span> Cancelar
+              </a>
+            </div>
+            <div class="col-sm-3"></div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
