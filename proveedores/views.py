@@ -1,7 +1,7 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.forms import ModelForm
-from proveedores.models import Proveedor, Telefono, Direccion
-from proveedores.forms import ProveedorForm,TelefonoForm,DireccionForm
+from proveedores.models import Proveedor
+from proveedores.forms import ProveedorForm
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import auth
 from django.views.generic.base import TemplateView
@@ -13,19 +13,40 @@ from django.template import RequestContext
 
 def prov_create(request, template_name='proveedores/new_proveedor.html'):
     if request.user.is_authenticated():
-        form1 = ProveedorForm(request.POST or None)
-        form2 = TelefonoForm(request.POST or None)
-        form3 = DireccionForm(request.POST or None)
-        context = {
-        'form1': form1,
-        'form2': form2,
-        'form3': form3,
-        }
-        if form1.is_valid() and form2.is_valid() and form3.is_valid() :
-            form1.save()
-            form2.save()
-            form3.save()
-            return redirect('product_list')
-        return render(request, template_name, context)
+        form = ProveedorForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('prov_list')
+        return render(request, template_name, {'form':form})
     else:
         return render(request, 'products/login.html',{})
+
+def prov_list(request, template_name='proveedores/proveedor_list.html'):
+    if request.user.is_authenticated():
+        proveedor = Proveedor.objects.all()
+        data = {}
+        data['object_list'] = proveedor
+        return render(request, template_name, data)
+    else:
+        return render(request, 'products/login.html', {})
+
+def prov_update(request, pk, template_name='proveedores/new_proveedor.html'):
+    if request.user.is_authenticated():
+        proveedor = get_object_or_404(Proveedor, pk=pk)
+        form = ProveedorForm(request.POST or None, instance=proveedor)
+        if form.is_valid():
+            form.save()
+            return redirect('prov_list')
+        return render(request, template_name, {'form':form})
+    else:
+        return render(request, 'products/login.html', {})
+
+def prov_delete(request, pk, template_name='proveedores/prov_confirm_delete.html'):
+    if request.user.is_authenticated():
+        proveedor = get_object_or_404(Proveedor, pk=pk)
+        if request.method=='POST':
+            proveedor.delete()
+            return redirect('prov_list')
+        return render(request, template_name, {'proveedor':proveedor})
+    else:
+        return render(request, 'products/login.html', {})

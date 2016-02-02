@@ -1,0 +1,108 @@
+{% include "products/header.html" %}
+<body>
+    <style>
+    .table td {
+     text-align: center;
+     }
+     .table th {
+      text-align: center;
+      }
+    </style>
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 style="text-align:center;">Proveedores</h1>
+          </br>
+          </br>
+          <div>
+          <span style="font-size: 18px;padding-right:1%;">Filtrar</span>
+          <input style="border-style:solid;text-align:center;" id="searchInput" text="Buscar...">
+        </div>
+        </br>
+        </br>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Telefono Fijo</th>
+                <th>Celular</th>
+                <th>Direccion</th>
+                <th>Mail</th>
+                <th>Web</th>
+              </tr>
+            </thead>
+            <tbody id="tableToFilter">
+              {% for proveedor in object_list %}
+              <tr>
+                  <td>{{ proveedor.nombre }}</td>
+                  <td>{{ proveedor.apellido }}</td>
+                  <td>{{ proveedor.telefono_fijo}}</td>
+                  <td>{{ proveedor.celular}}</td>
+                  <td>{{ proveedor.pais}},{{ proveedor.provincia}},{{ proveedor.ciudad}}|{{ proveedor.calle}} {{ proveedor.altura}},{{ proveedor.entre_calle}},{{ proveedor.piso}} {{ proveedor.depto}}|{{ proveedor.codigo_postal}} </td>
+                  <td>{{ proveedor.mail}}</td>
+                  <td>{{ proveedor.web}}</td>
+                  <td>
+                    <a href="{% url "prov_edit" proveedor.id %}" class="btn btn-info" title="Editar">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{% url "prov_delete" proveedor.id %}" class="btn btn-danger" title="Borrar">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                  </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <a href="{% url "prov_create" %}" class="btn btn-success btn-lg">
+          <span class="glyphicon glyphicon-plus"></span> Nuevo Proveedor
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript">
+$(document).ready(function(){
+
+  var searchInputSelector = $("#searchInput");
+  var tableToFilterSelector = $("#tableToFilter");
+
+  searchInputSelector.keyup(function () {
+    //split the current value of searchInput
+    var data = this.value.toUpperCase().split(" ");
+    //create a jquery object of the rows
+    var jo = tableToFilterSelector.find("tr");
+    if (this.value == "") {
+      jo.show();
+      return;
+    }
+    //hide all the rows
+    jo.hide();
+
+    //Recusively filter the jquery object to get results.
+    jo.filter(function (i, v) {
+      var $t = $(this);
+      for (var d = 0; d < data.length; ++d) {
+        if ($t.text().toUpperCase().indexOf(data[d]) > -1) {
+          return true;
+        }
+      }
+      return false;
+    })
+    //show the rows that match.
+    .show();
+  }).focus(function () {
+    this.value = "";
+    $(this).css({
+      "color": "black"
+    });
+    $(this).unbind('focus');
+  }).css({
+    "color": "#C0C0C0"
+  });
+});
+</script>
+</body>

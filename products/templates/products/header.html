@@ -7,7 +7,7 @@
   <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>    
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
   <div style="padding:2px ; background-color:rgba(76,12,12,0.77)">
@@ -44,6 +44,13 @@
             <a class="btn btn-danger dropdown-toggle" data-toggle="dropdown"> Estadisticas </a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">Productos Vendidos</a></li>
+            </ul>
+          </div>
+          <div class="btn-group btn-group">
+            <a class="btn btn-danger dropdown-toggle" data-toggle="dropdown"> Proveedores </a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="{% url "prov_create" %}">Nuevo Proveedor</a></li>
+              <li><a href="{% url "prov_list" %}">Ver Proveedores</a></li>
             </ul>
           </div>
         </div>
