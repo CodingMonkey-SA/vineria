@@ -11,17 +11,21 @@
                                 <div class="row">
                                     <div class="col-md-4" style="border-right-style:groove;">
                                         <h1 class="text-left">Total</h1>
-                                        <input class="text-center" id="total" name="total" type="text" style="height:20% ; width:90%; font-size:75px ; border-style:solid;" disabled="true">
+                                        <input class="text-center" id="total" name="total" type="text" style="height:10% ; width:90%; font-size:50px ; border-style:solid;" disabled="true">
                                         <h1 class="text-left">Pago</h1>
-                                        <input class="text-center" id="pago" name="pago" type="text" style="height:10% ; width:90%; font-size:30px ; border-style:solid;">
+                                        <input class="text-center" id="pago" name="pago" type="text" style="height:7% ; width:90%; font-size:30px ; border-style:solid;">
+                                        <h1 class="text-left">Descuento</h1>
+                                        <h1 class="text-left" style="display:inline">$</h1>
+                                        <input class="text-center" id="descpesos" name="descpesos" type="text" style="height:7% ; width:30%; font-size:30px ; border-style:solid;">
+                                        <h1 class="text-left" style="display:inline">%</h1>
+                                        <input class="text-center" id="descporc" name="descporc" type="text" style="height:7% ; width:30%; font-size:30px ; border-style:solid;">
                                         <h1 class="text-left">Vuelto</h1>
-                                        <input class="text-center" id="vuelto" name="vuelto" type="text" style="height:20% ; width:90%; font-size:75px ; border-style:solid;" disabled="true">
+                                        <input class="text-center" id="vuelto" name="vuelto" type="text" style="height:10% ; width:90%; font-size:50px ; border-style:solid;" disabled="true">
                                         <div class="section">
                                             <div class="container">
                                                 <div class="row">
                                                   <div class="col-md-2">
-                                                    <a class="btn btn-primary"
-                                                    href="{% url 'realizarventa' %}">Realizar Venta</a>
+                                                    <a class="btn btn-primary" id="realizarventa" name="realizarventa">Realizar Venta</a>
                                                   </div>
                                                   <div class="col-md-2">
                                                     <a class="btn btn-primary">Cancelar</a>
@@ -80,7 +84,7 @@
           $('#total').val('00.00');
           $('#vuelto').val('00.00');
       })
-     $('#codigo').on('keypress',function(e){ 
+     $('#codigo').on('keypress',function(e){
       if(e.keyCode == 13){
         var cantidad = $('#cantidad').val();
         var id = $(this).val();
@@ -109,7 +113,16 @@
                   importe_total = importe_total + parseFloat($(this).html());
                 }
               );
-              $("#total").val(importe_total);
+              localStorage.setItem('total',importe_total);
+             if ($('#descpesos').val() != '') {
+                $("#total").val(parseFloat(parseFloat(importe_total) - parseFloat($("#descpesos").val())).toFixed(2));
+             }else {
+              if ($('#descporc').val() != '') {
+                var porcentaje= (parseFloat($("#descporc").val()) * parseFloat(importe_total))/100
+                $("#total").val(parseFloat(parseFloat(importe_total) - porcentaje).toFixed(2));
+              } else
+                $("#total").val(importe_total);
+              }
               $('#codigo').val('');
               $('#cantidad').val('1');
           },
@@ -121,10 +134,54 @@
         });
       }
     });
- $('#pago').keyup(function(){ 
+ $('#pago').keyup(function(){
       //if(e.keyCode == 13){
-        $("#vuelto").val(parseFloat(parseFloat($(this).val()) - parseFloat($("#total").val())).toFixed(2));
+        if ($('#pago').val() != "")
+          $("#vuelto").val(parseFloat(parseFloat($(this).val()) - parseFloat($("#total").val())).toFixed(2));
+        else
+          $("#vuelto").val(0.00)
      // };
   });
+ $('#realizarventa').on('click',function(){
+    var descporc =  $('#descporc').val()
+    var descpesos =  $('#descpesos').val()
+    $.ajax({
+          data: {'descporc':descporc, 'descpesos':descpesos},
+          url: '{% url "realizarventa" %}',
+          type: 'get',
+          success: function(data){
+            console.log("anda")
+            window.location.href='{% url "ventarealizada" %}';
+          },
+        error: function(data) {
+          console.log(data)
+           alert("No anda nada")
+        }
+        });
+  });
+  $('#descpesos').keyup(function(e){
+      if ($('#descpesos').val() != '') {
+        $('#descporc').prop('disabled', true);
+        $("#total").val(parseFloat(localStorage.getItem('total') - parseFloat($("#descpesos").val())).toFixed(2));
+        }
+      else{
+        $('#descporc').prop('disabled', false);
+        $("#total").val(localStorage.getItem('total'));
+      }
+      if ($('#pago').val() != "") $('#pago').keyup();
+  });
+  $('#descporc').keyup(function(){
+      if ($('#descporc').val() != '') {
+        $('#descpesos').prop('disabled', true);
+        var porcentaje= (parseFloat($("#descporc").val()) * parseFloat(localStorage.getItem('total')))/100
+        $("#total").val(parseFloat(localStorage.getItem('total') - porcentaje).toFixed(2));
+      }
+      else{
+        $('#descpesos').prop('disabled', false);
+        $("#total").val(localStorage.getItem('total'));
+      }
+      if ($('#pago').val() != "") $('#pago').keyup();
+  });
+
 </script>
 </body></html>

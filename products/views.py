@@ -7,16 +7,19 @@ from products.models import Product
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from products.models import Product,Venta,VentaProducto
+from products.models import Product,Venta,VentaProducto,Proveedor
 from django.views.generic.base import TemplateView
 from django.core import serializers
 from django.http import HttpResponse
 from django.http import Http404
+from django.db.models import Sum,F
+from django.db.models.fields import FloatField
+import json
 
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['codigo', 'name', 'productType', 'brand', 'price', 'productStock', 'description', 'year', 'variety', 'origin', 'maker', 'size',]
+        fields = ['codigo', 'name', 'productType', 'brand', 'price', 'precio_lista', 'productStock', 'description', 'year', 'variety', 'origin', 'maker', 'size']
 
 def home(request, template_name='products/home.html'):
     if request.user.is_authenticated():
@@ -24,7 +27,7 @@ def home(request, template_name='products/home.html'):
     else:
         return render(request, 'products/login.html', {})
 
-def ventas(request, template_name='products/vineriaVentas-copia.html'):
+def ventas(request, template_name='products/vineriaVentas.html'):
     if request.user.is_authenticated():
         id_venta = Venta.objects.filter(estado='BO').values('id')
         if id_venta:
@@ -62,7 +65,7 @@ def product_create(request, template_name='products/product_form.html'):
     else:
         return render(request, 'products/login.html', {})
 
-def product_update(request, pk, template_name='products/product_form.html'):
+def product_update(request, pk, template_name='products/product_edit.html'):
     if request.user.is_authenticated():
         product = get_object_or_404(Product, pk=pk)
         form = ProductForm(request.POST or None, instance=product)
@@ -134,8 +137,20 @@ class DatosProductos(TemplateView):
         return HttpResponse(data, content_type ="application/json")
 
 def realizarventa(request):
+    descpesos = request.GET['descpesos']
+    descporc = request.GET['descporc']
     id_venta = Venta.objects.filter(estado='BO').values('id')
     venta = Venta(id_venta[0].get('id'))
+    sumventas = VentaProducto.objects.filter(venta_id=id_venta[0].get('id')).aggregate(total=Sum(F('precio')*F('cant'), output_field=FloatField()))
+    venta.total = sumventas.get('total')
+    if (descporc != ''):
+       venta.descuento = (venta.total*float(descporc))/100
+    if (descpesos != ''):
+        venta.descuento = descpesos
     venta.estado = 'CO'
     venta.save()
+    response = {}
+    return HttpResponse({},'')
+
+def ventarealizada(request):
     return render(request,'products/ventarealizada.html',{})

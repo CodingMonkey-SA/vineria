@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, url
 from products import views
-from users import views as usersViews
 
 urlpatterns = [
   url(r'^products/$', views.product_list, name='product_list'),
@@ -14,4 +13,5 @@ urlpatterns = [
   url(r'^logout_view/$', views.logout_view, name='logout_view'),
   url(r'^datos_prod/$', views.DatosProductos.as_view(), name='datos_prod'),
   url(r'^realizarventa/$', views.realizarventa, name='realizarventa'),
+  url(r'^ventarealizada/$', views.ventarealizada, name='ventarealizada'),
 ]

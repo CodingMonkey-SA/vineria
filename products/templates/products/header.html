@@ -27,6 +27,9 @@
             </ul>
           </div>
           <div class="btn-group btn-group">
+            <a class="btn btn-danger" id="abrircaja"></a>
+          </div>
+          <div class="btn-group btn-group">
             <a class="btn btn-danger dropdown-toggle" data-toggle="dropdown"> Productos </a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="{% url "product_new" %}">Nuevo Producto</a></li>
@@ -67,3 +70,42 @@
     </div>
   </div>
 </body>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $.ajax({
+          url: '{% url "cajaabierta" %}',
+          type: 'get',
+          success: function(data){
+            $('#abrircaja').html("Cerrar Caja");
+          },
+          error: function(data){
+            $('#abrircaja').html("Abrir Caja");
+          },
+    });
+    $('#abrircaja').on("click", function(e){
+      if ($(this).html() == "Abrir Caja"){
+        var saldo = prompt("Valor inicial de caja", "");
+        $.ajax({
+          data: {'saldo':saldo},
+          url: '{% url "abrircaja" %}',
+          type: 'get',
+          success: function(data){
+            $('#abrircaja').html("Cerrar Caja");
+          },
+        });
+      }
+      else {
+        $.ajax({
+          data: {'saldo':saldo},
+          url: '{% url "cerrarcaja" %}',
+          type: 'get',
+          success: function(data){
+            alert("El valor de caja: " + data.balance)
+            $('#abrircaja').html("Abrir Caja");
+          },
+        });
+      }
+    });
+  });
+</script>  

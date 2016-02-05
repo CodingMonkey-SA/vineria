@@ -1,11 +1,13 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from proveedores.models import Proveedor
 
 class Product(models.Model):
     name = models.CharField(max_length=50, default="N/A")
     productType = models.CharField(max_length=30, default="N/A")
     brand = models.CharField(max_length=30, default="N/A")
     price = models.FloatField(default='00.00')
+    precio_lista = models.FloatField(default='00.00')
     productStock = models.IntegerField(default='0')
     description = models.CharField(max_length=200, default="N/A")
     year = models.IntegerField(default='0000')
@@ -25,6 +27,8 @@ class Venta(models.Model):
     products =  models.ManyToManyField(Product, through='VentaProducto')
     fecha = models.DateTimeField(auto_now=True)
     estado = models.TextField(max_length=2, default="BO")
+    total = models.FloatField(default='00.00')
+    descuento = models.FloatField(default='0')
 
 class VentaProducto(models.Model):
     venta = models.ForeignKey(Venta)
